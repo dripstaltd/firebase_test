@@ -1,19 +1,11 @@
-import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
-import { useAuth } from "../../../lib/firebase";
+import { useSignIn } from "../../contexts/UserContext";
 
 export const SignInButton = () => {
-  const handleClick = () => {
-    const provider = new GoogleAuthProvider();
-    const auth = useAuth();
-    // @see https://firebase.google.com/docs/auth/web/google-signin
-    auth.languageCode = "ja";
-
-    signInWithRedirect(auth, provider);
-  };
+  const { signIn } = useSignIn();
 
   return (
     <button
-      onClick={handleClick}
+      onClick={signIn}
       type="button"
       className="btn btn-primary normal-case min-w-60"
     >

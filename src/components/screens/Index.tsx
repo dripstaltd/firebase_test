@@ -1,15 +1,17 @@
 import { Dialog } from '@headlessui/react';
 import { useRef, useState } from 'react';
-import { useAuthState } from '../contexts/UserContext';
-import { SignInButton } from '../domain/auth/SignInButton';
-import { SignOutButton } from '../domain/auth/SignOutButton';
-import { Head } from '../shared/Head';
+import { useAuthState } from "../contexts/UserContext";
+import { SignInButton } from "../domain/auth/SignInButton";
+import { SignOutButton } from "../domain/auth/SignOutButton";
+import { Head } from "../shared/Head";
 
 function Index() {
   const { state } = useAuthState();
   const [isOpen, setIsOpen] = useState(true);
   const completeButtonRef = useRef(null);
 
+  // {state.state === "UNKNOWN" ? null : state.state === "SIGNED_OUT" ? <SignInButton /> : <SignOutButton />}
+  console.log("Auth State:", state); // Debugging output
   return (
     <>
       <Head title="TOP PAGE" />
@@ -63,32 +65,9 @@ function Index() {
               </a>
               .
             </p>
-            <div className="mt-4 grid gap-2">
-              {state.state === 'UNKNOWN' ? null : state.state === 'SIGNED_OUT' ? <SignInButton /> : <SignOutButton />}
-              <button className="btn btn-primary-content normal-case min-w-60" onClick={() => setIsOpen(true)}>
-                Display Dialog
-              </button>
-            </div>
           </div>
         </div>
       </div>
-      <Dialog
-        className="flex fixed inset-0 z-10 overflow-y-auto"
-        initialFocus={completeButtonRef}
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
-        <div className="flex items-center justify-center min-h-screen w-screen">
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30 " />
-          <div className="relative bg-white rounded max-w-120 p-8 mx-auto">
-            <Dialog.Title>Dialog Title</Dialog.Title>
-            <Dialog.Description>Dialog description</Dialog.Description>
-            <button ref={completeButtonRef} type="button" className="btn btn-primary" onClick={() => setIsOpen(false)}>
-              Got it, thanks!
-            </button>
-          </div>
-        </div>
-      </Dialog>
     </>
   );
 }

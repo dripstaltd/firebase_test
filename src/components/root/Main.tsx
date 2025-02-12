@@ -1,25 +1,27 @@
 import { Router } from "../router/Router";
-import { setupFirebase } from "../../lib/firebase";
+import { useSignIn, useSignOut } from "../contexts/UserContext"; // ✅ Ensure Correct Import
 import { useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useSignIn, useSignOut } from "../contexts/UserContext";
 
 function Main() {
   const { signIn } = useSignIn();
   const { signOut } = useSignOut();
-  useEffect(() => {
-    setupFirebase();
 
+  useEffect(() => {
     const auth = getAuth();
 
-    onAuthStateChanged(auth, (user) => {
+    // Listen to auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         signIn(user);
       } else {
         signOut();
       }
     });
+
+    return () => unsubscribe(); // Cleanup when component unmounts
   }, []);
+
   return (
     <main>
       <Router />
@@ -28,3 +30,4 @@ function Main() {
 }
 
 export default Main;
+

@@ -1,52 +1,51 @@
-
-import { lazy, Suspense } from 'react';
-import { Outlet, RouteObject, useRoutes, BrowserRouter } from 'react-router-dom';
+import { Outlet, RouteObject, useRoutes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { useAuthState, useSignIn, useSignOut } from "../contexts/UserContext";
 
 const Loading = () => <p className="p-4 w-full h-full text-center">Loading...</p>;
-
-const IndexScreen = lazy(() => import('../screens/Index'));
-const Page404Screen = lazy(() => import('../screens/404'));
+const IndexScreen = lazy(() => import("../screens/Index"));
+const Page404Screen = lazy(() => import("../screens/404"));
 
 function Layout() {
+  const { state } = useAuthState();
+  const { signIn } = useSignIn();
+  const { signOut } = useSignOut();
+
   return (
     <div>
-      <nav className="p-4 flex items-center justify-between">
-        <span>My Template</span>
+      {/* ✅ Header with a single Sign In/Out button */}
+      <nav className="p-4 flex items-center justify-between bg-gray-900 text-white">
+        <span className="text-lg font-bold">My App</span>
+        <button
+          onClick={state.state === "SIGNED_IN" ? signOut : signIn}
+          className="btn btn-primary normal-case px-4 py-2 rounded-md"
+        >
+          {state.state === "SIGNED_IN" ? "Sign Out" : "Sign In"}
+        </button>
       </nav>
-      <Outlet />
+
+      {/* Page Content */}
+      <Suspense fallback={<Loading />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }
 
-export const Router = () => {
-  return (
-    <BrowserRouter>
-      <InnerRouter />
-    </BrowserRouter>
-  );
-};
-
 const InnerRouter = () => {
   const routes: RouteObject[] = [
     {
-      path: '/',
+      path: "/",
       element: <Layout />,
       children: [
-        {
-          index: true,
-          element: <IndexScreen />,
-        },
-        {
-          path: '*',
-          element: <Page404Screen />,
-        },
+        { index: true, element: <IndexScreen /> },
+        { path: "*", element: <Page404Screen /> },
       ],
     },
   ];
-  const element = useRoutes(routes);
-  return (
-    <div>
-      <Suspense fallback={<Loading />}>{element}</Suspense>
-    </div>
-  );
+  return useRoutes(routes);
+};
+
+export const Router = () => {
+  return <InnerRouter />;
 };

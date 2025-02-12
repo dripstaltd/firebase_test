@@ -1,13 +1,18 @@
-import {HelmetProvider} from "react-helmet-async";
-import {AuthProvider} from "../contexts/UserContext";
+import { HelmetProvider } from "react-helmet-async";
+import { AuthProvider } from "../contexts/UserContext";
+import { BrowserRouter } from "react-router-dom";
 import Main from "../root/Main";
 
 export const App = () => {
   return (
     <HelmetProvider>
-      <AuthProvider>
-        <Main />
-      </AuthProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <Main />
+        </AuthProvider>
+      </BrowserRouter>
     </HelmetProvider>
-  )
+  );
 };
+
+
