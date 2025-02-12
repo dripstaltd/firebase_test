@@ -1,14 +1,8 @@
-import { Dialog } from '@headlessui/react';
-import { useRef, useState } from 'react';
 import { useAuthState } from "../contexts/UserContext";
-import { SignInButton } from "../domain/auth/SignInButton";
-import { SignOutButton } from "../domain/auth/SignOutButton";
 import { Head } from "../shared/Head";
 
 function Index() {
   const { state } = useAuthState();
-  const [isOpen, setIsOpen] = useState(true);
-  const completeButtonRef = useRef(null);
 
   // {state.state === "UNKNOWN" ? null : state.state === "SIGNED_OUT" ? <SignInButton /> : <SignOutButton />}
   console.log("Auth State:", state); // Debugging output
