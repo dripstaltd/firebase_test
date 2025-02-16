@@ -1,4 +1,5 @@
-import { useSignIn } from "../../contexts/UserContext";
+import { useSignIn } from "../../../hooks/auth";
+
 
 export const SignInButton = () => {
   const { signIn } = useSignIn();

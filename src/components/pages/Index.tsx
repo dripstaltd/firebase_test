@@ -1,11 +1,6 @@
-import { useAuthState } from "../contexts/UserContext";
 import { Head } from "../shared/Head";
 
 function Index() {
-  const { state } = useAuthState();
-
-  // {state.state === "UNKNOWN" ? null : state.state === "SIGNED_OUT" ? <SignInButton /> : <SignOutButton />}
-  console.log("Auth State:", state); // Debugging output
   return (
     <>
       <Head title="TOP PAGE" />

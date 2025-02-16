@@ -1,4 +1,5 @@
-import { useSignOut } from "../../contexts/UserContext";
+import { useSignOut } from "../../../hooks/auth";
+import { FiLogOut } from "react-icons/fi";
 
 export const SignOutButton = () => {
   const { signOut } = useSignOut();
@@ -7,9 +8,9 @@ export const SignOutButton = () => {
     <button
       onClick={signOut}
       type="button"
-      className="btn normal-case"
+      className="btn btn-ghost btn-circle"
     >
-      Sign Out
+      <FiLogOut className="h-5 w-5" />
     </button>
   );
 };
